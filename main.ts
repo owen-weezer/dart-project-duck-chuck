@@ -1,6 +1,12 @@
+scene.onHitWall(SpriteKind.Player, function (sprite, location) {
+    music.powerDown.play()
+    game.over(false, effects.melt)
+})
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     myDart.throwDart()
-    music.beamUp.play()
+    music.buzzer.play()
+    pause(360)
+    music.buzzer.play()
 })
 function createBadguy () {
     bad_guy = sprites.create(assets.image`badguy dragon`, SpriteKind.Enemy)
@@ -27,7 +33,7 @@ function createDuck () {
         `, SpriteKind.Player, 10, 60)
     myDart.setTrace()
     myDart.controlWithArrowKeys()
-    myDart.angle = 0
+    myDart.angle = -50
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     music.bigCrash.play()
