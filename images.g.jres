@@ -1,0 +1,12 @@
+{
+    "image1": {
+        "data": "hwQYABgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAMwAAAAAAAAAAAAAzMwMAAAAAMDMzAzA7u7OwAwAADwz48Ps7u7uzAwAwDMz4zPs7u7u3AwAPDMy4zPs7u7u3AwAPDMzIzLu7u7u3gzAMzMzMiPu7u7uzszAMzM8MzPuzuzuzM3AM8MzMzPuPMMzI8PAM8MzMzPOM+MzI8PAM+MjMzMzMz4zIsPMPDMjMiMz4zIjIsLMPDMzIiIzLiIi7sLMwDMzI+LuIiLizswAwD4zMyIiIiIi7gwAzOwzMzMiIiIi4gwAzAzuMyMiIiIiwgAAAMDMAMzOzOwiwgAAAMAMwMzADMwuwgAAAAAAwAzAAAAswgAAAAAAAAAAAADAwgAAAAAAAAAAAAAAzAA=",
+        "mimeType": "image/x-mkcd-f4",
+        "displayName": "badguy dragon"
+    },
+    "*": {
+        "mimeType": "image/x-mkcd-f4",
+        "dataEncoding": "base64",
+        "namespace": "myImages"
+    }
+}
