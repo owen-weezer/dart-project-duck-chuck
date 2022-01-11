@@ -3,7 +3,8 @@
     "description": "",
     "dependencies": {
         "device": "*",
-        "darts": "*"
+        "darts": "*",
+        "animation": "*"
     },
     "files": [
         "main.blocks",

@@ -1,12 +1,47 @@
+namespace SpriteKind {
+    export const obstacle = SpriteKind.create()
+    export const bystander = SpriteKind.create()
+}
 scene.onHitWall(SpriteKind.Player, function (sprite, location) {
     music.powerDown.play()
-    game.over(false, effects.melt)
+    info.changeLifeBy(-1)
+    myDart.sprite.setPosition(DART_X_VALUE, DART_Y_VALUE)
+    myDart.stopDart()
 })
 controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
     myDart.throwDart()
     music.buzzer.play()
     pause(360)
     music.buzzer.play()
+})
+function createAsteroid () {
+    for (let index = 0; index < 3; index++) {
+        obstacle = sprites.create(img`
+            . . . . . . . . c c c c . . . . 
+            . . . . c c c c c c c c c . . . 
+            . . . c f c c 2 2 2 2 c 2 c . . 
+            . . c c f f f f 2 2 2 c 2 2 c . 
+            . . c c 2 f f c 2 2 f f f 2 2 c 
+            . . c c 2 2 2 2 b c f f f 2 2 c 
+            . c c c c 2 c c b 2 f c 2 2 c c 
+            c 2 f f c c c 2 b b 3 b b b c c 
+            c 2 f f f f c c c 3 b b b 2 2 c 
+            c 2 2 c f f c 2 3 3 b b b 2 2 c 
+            c c b 2 2 2 2 b 3 b b 2 b b 2 . 
+            . c c b b b b b b b 2 c c b 2 . 
+            . . c c c b c c c b 2 2 b c . . 
+            . . . . c b 2 c c b b b c . . . 
+            . . . . c b b 2 2 3 b c . . . . 
+            . . . . . . b 3 3 c c . . . . . 
+            `, SpriteKind.obstacle)
+        obstacle.setPosition(randint(60, 160), randint(88, 0))
+    }
+}
+sprites.onOverlap(SpriteKind.Player, SpriteKind.obstacle, function (sprite, otherSprite) {
+    myDart.sprite.setPosition(DART_X_VALUE, DART_Y_VALUE)
+    music.thump.play()
+    myDart.stopDart()
+    info.changeLifeBy(-1)
 })
 function createBadguy () {
     bad_guy = sprites.create(assets.image`badguy dragon`, SpriteKind.Enemy)
@@ -30,17 +65,220 @@ function createDuck () {
         . c d d d d d d 5 5 5 5 5 d b . 
         . . c b d d d d d 5 5 5 b b . . 
         . . . c c c c c c c c b b . . . 
-        `, SpriteKind.Player, 10, 60)
+        `, SpriteKind.Player, DART_X_VALUE, DART_Y_VALUE)
+    info.setLife(3)
     myDart.setTrace()
     myDart.controlWithArrowKeys()
     myDart.angle = -50
+}
+function createGreensnake () {
+    greensnake = sprites.create(img`
+        . . . c c c c c c . . . . . . . 
+        . . c 6 7 7 7 7 6 c . . . . . . 
+        . c 7 7 7 7 7 7 7 7 c . . . . . 
+        c 6 7 7 7 7 7 7 7 7 6 c . . . . 
+        c 7 c 6 6 6 6 c 7 7 7 c . . . . 
+        f 7 6 f 6 6 f 6 7 7 7 f . . . . 
+        f 7 7 7 7 7 7 7 7 7 7 f . . . . 
+        . f 7 7 7 7 6 c 7 7 6 f . . . . 
+        . . f c c c c 7 7 6 f c c c . . 
+        . . c 6 2 7 7 7 f c c 7 7 7 c . 
+        . c 6 7 7 2 7 7 c f 6 7 7 7 7 c 
+        . c 1 1 1 1 7 6 6 c 6 6 6 c c c 
+        . c 1 1 1 1 1 6 6 6 6 6 6 c . . 
+        . c 6 1 1 1 1 1 6 6 6 6 6 c . . 
+        . . c 6 1 1 1 1 1 7 6 6 c c . . 
+        . . . c c c c c c c c c c . . . 
+        `, SpriteKind.bystander)
+    greensnake.setPosition(103, 90)
+    animation.runImageAnimation(
+    greensnake,
+    [img`
+        . . . c c c c c c . . . . . . . 
+        . . c 6 7 7 7 7 6 c . . . . . . 
+        . c 7 7 7 7 7 7 7 7 c . . . . . 
+        c 6 7 7 7 7 7 7 7 7 6 c . . . . 
+        c 7 c 6 6 6 6 c 7 7 7 c . . . . 
+        f 7 6 f 6 6 f 6 7 7 7 f . . . . 
+        f 7 7 7 7 7 7 7 7 7 7 f . . . . 
+        . f 7 7 7 7 6 c 7 7 6 f . . . . 
+        . . f c c c c 7 7 6 f c c c . . 
+        . . c 6 2 7 7 7 f c c 7 7 7 c . 
+        . c 6 7 7 2 7 7 c f 6 7 7 7 7 c 
+        . c 1 1 1 1 7 6 6 c 6 6 6 c c c 
+        . c 1 1 1 1 1 6 6 6 6 6 6 c . . 
+        . c 6 1 1 1 1 1 6 6 6 6 6 c . . 
+        . . c 6 1 1 1 1 1 7 6 6 c c . . 
+        . . . c c c c c c c c c c . . . 
+        `,img`
+        . . . . c c c c c c . . . . . . 
+        . . . c 6 7 7 7 7 6 c . . . . . 
+        . . c 7 7 7 7 7 7 7 7 c . . . . 
+        . c 6 7 7 7 7 7 7 7 7 6 c . . . 
+        . c 7 c 6 6 6 6 c 7 7 7 c . . . 
+        . f 7 6 f 6 6 f 6 7 7 7 f . . . 
+        . f 7 7 7 7 7 7 7 7 7 7 f . . . 
+        . . f 7 7 7 7 6 c 7 7 6 f c . . 
+        . . . f c c c c 7 7 6 f 7 7 c . 
+        . . c 7 2 7 7 7 6 c f 7 7 7 7 c 
+        . c 7 7 2 7 7 c f c 6 7 7 6 c c 
+        c 1 1 1 1 7 6 f c c 6 6 6 c . . 
+        f 1 1 1 1 1 6 6 c 6 6 6 6 f . . 
+        f 6 1 1 1 1 1 6 6 6 6 6 c f . . 
+        . f 6 1 1 1 1 1 1 6 6 6 f . . . 
+        . . c c c c c c c c c f . . . . 
+        `,img`
+        . . . . . c c c c c c c . . . . 
+        . . . . c 6 7 7 7 7 7 6 c . . . 
+        . . . c 7 c 6 6 6 6 c 7 6 c . . 
+        . . c 6 7 6 f 6 6 f 6 7 7 c . . 
+        . . c 7 7 7 7 7 7 7 7 7 7 c . . 
+        . . f 7 8 1 f f 1 6 7 7 7 f . . 
+        . . f 6 f 1 f f 1 f 7 7 7 f . . 
+        . . . f f 2 2 2 2 f 7 7 6 f . . 
+        . . c c f 2 2 2 2 7 7 6 f c . . 
+        . c 7 7 7 7 7 7 7 7 c c 7 7 c . 
+        c 7 1 1 1 7 7 7 7 f c 6 7 7 7 c 
+        f 1 1 1 1 1 7 6 f c c 6 6 6 c c 
+        f 1 1 1 1 1 1 6 6 c 6 6 6 c . . 
+        f 6 1 1 1 1 1 6 6 6 6 6 6 c . . 
+        . f 6 1 1 1 1 1 6 6 6 6 c . . . 
+        . . f f c c c c c c c c . . . . 
+        `,img`
+        . . . . c c c c c c . . . . . . 
+        . . . c 6 7 7 7 7 6 c . . . . . 
+        . . c 7 7 7 7 7 7 7 7 c . . . . 
+        . c 6 7 7 7 7 7 7 7 7 6 c . . . 
+        . c 7 c 6 6 6 6 c 7 7 7 c . . . 
+        . f 7 6 f 6 6 f 6 7 7 7 f . . . 
+        . f 7 7 7 7 7 7 7 7 7 7 f . . . 
+        . . f 7 7 7 7 6 c 7 7 6 f c . . 
+        . . . f c c c c 7 7 6 f 7 7 c . 
+        . . c 7 2 7 7 7 6 c f 7 7 7 7 c 
+        . c 7 7 2 7 7 c f c 6 7 7 6 c c 
+        c 1 1 1 1 7 6 f c c 6 6 6 c . . 
+        f 1 1 1 1 1 6 6 c 6 6 6 6 f . . 
+        f 6 1 1 1 1 1 6 6 6 6 6 c f . . 
+        . f 6 1 1 1 1 1 1 6 6 6 f . . . 
+        . . c c c c c c c c c f . . . . 
+        `],
+    300,
+    true
+    )
+}
+info.onLifeZero(function () {
+    game.over(false, effects.melt)
+})
+function createRedsnake () {
+    redsnake = sprites.create(img`
+        . . . c c c c c c . . . . . . . 
+        . . c 2 3 3 3 3 2 c . . . . . . 
+        . c 3 3 3 3 3 3 3 3 c . . . . . 
+        c 2 3 3 3 3 3 3 3 3 2 c . . . . 
+        c 3 c 2 2 2 2 c 3 3 3 c . . . . 
+        f 3 2 f 2 2 f 2 3 3 3 f . . . . 
+        f 3 3 3 3 3 3 3 3 3 3 f . . . . 
+        . f 3 3 3 3 2 c 3 3 2 f . . . . 
+        . . f c c c c 3 3 2 f c c c . . 
+        . . c 2 9 3 3 3 f c c 3 3 3 c . 
+        . c 2 3 3 9 3 3 c f 2 3 3 3 3 c 
+        . c 1 1 1 1 3 2 2 c 2 2 2 c c c 
+        . c 1 1 1 1 1 2 2 2 2 2 2 c . . 
+        . c 2 1 1 1 1 1 2 2 2 2 2 c . . 
+        . . c 2 1 1 1 1 1 3 2 2 c c . . 
+        . . . c c c c c c c c c c . . . 
+        `, SpriteKind.bystander)
+    redsnake.setPosition(84, 90)
+    animation.runImageAnimation(
+    redsnake,
+    [img`
+        . . . c c c c c c . . . . . . . 
+        . . c 2 3 3 3 3 2 c . . . . . . 
+        . c 3 3 3 3 3 3 3 3 c . . . . . 
+        c 2 3 3 3 3 3 3 3 3 2 c . . . . 
+        c 3 c 2 2 2 2 c 3 3 3 c . . . . 
+        f 3 2 f 2 2 f 2 3 3 3 f . . . . 
+        f 3 3 3 3 3 3 3 3 3 3 f . . . . 
+        . f 3 3 3 3 2 c 3 3 2 f . . . . 
+        . . f c c c c 3 3 2 f c c c . . 
+        . . c 2 9 3 3 3 f c c 3 3 3 c . 
+        . c 2 3 3 9 3 3 c f 2 3 3 3 3 c 
+        . c 1 1 1 1 3 2 2 c 2 2 2 c c c 
+        . c 1 1 1 1 1 2 2 2 2 2 2 c . . 
+        . c 2 1 1 1 1 1 2 2 2 2 2 c . . 
+        . . c 2 1 1 1 1 1 3 2 2 c c . . 
+        . . . c c c c c c c c c c . . . 
+        `,img`
+        . . . . c c c c c c . . . . . . 
+        . . . c 2 3 3 3 3 2 c . . . . . 
+        . . c 3 3 3 3 3 3 3 3 c . . . . 
+        . c 2 3 3 3 3 3 3 3 3 2 c . . . 
+        . c 3 c 2 2 2 2 c 3 3 3 c . . . 
+        . f 3 2 f 2 2 f 2 3 3 3 f . . . 
+        . f 3 3 3 3 3 3 3 3 3 3 f . . . 
+        . . f 3 3 3 3 2 c 3 3 2 f c . . 
+        . . . f c c c c 3 3 2 f 3 3 c . 
+        . . c 3 9 3 3 3 2 c f 3 3 3 3 c 
+        . c 3 3 9 3 3 c f c 2 3 3 2 c c 
+        c 1 1 1 1 3 2 f c c 2 2 2 c . . 
+        f 1 1 1 1 1 2 2 c 2 2 2 2 f . . 
+        f 2 1 1 1 1 1 2 2 2 2 2 c f . . 
+        . f 2 1 1 1 1 1 1 2 2 2 f . . . 
+        . . c c c c c c c c c f . . . . 
+        `,img`
+        . . . . . c c c c c c c . . . . 
+        . . . . c 2 3 3 3 3 3 2 c . . . 
+        . . . c 3 c 2 2 2 2 c 3 2 c . . 
+        . . c 2 3 2 f 2 2 f 2 3 3 c . . 
+        . . c 3 3 3 3 3 3 3 3 3 3 c . . 
+        . . f 3 a 1 f f 1 2 3 3 3 f . . 
+        . . f 2 f 1 f f 1 f 3 3 3 f . . 
+        . . . f f 9 9 9 9 f 3 3 2 f . . 
+        . . c c f 9 9 9 9 3 3 2 f c . . 
+        . c 3 3 3 3 3 3 3 3 c c 3 3 c . 
+        c 3 1 1 1 3 3 3 3 f c 2 3 3 3 c 
+        f 1 1 1 1 1 3 2 f c c 2 2 2 c c 
+        f 1 1 1 1 1 1 2 2 c 2 2 2 c . . 
+        f 2 1 1 1 1 1 2 2 2 2 2 2 c . . 
+        . f 2 1 1 1 1 1 2 2 2 2 c . . . 
+        . . f f c c c c c c c c . . . . 
+        `,img`
+        . . . . c c c c c c . . . . . . 
+        . . . c 2 3 3 3 3 2 c . . . . . 
+        . . c 3 3 3 3 3 3 3 3 c . . . . 
+        . c 2 3 3 3 3 3 3 3 3 2 c . . . 
+        . c 3 c 2 2 2 2 c 3 3 3 c . . . 
+        . f 3 2 f 2 2 f 2 3 3 3 f . . . 
+        . f 3 3 3 3 3 3 3 3 3 3 f . . . 
+        . . f 3 3 3 3 2 c 3 3 2 f c . . 
+        . . . f c c c c 3 3 2 f 3 3 c . 
+        . . c 3 9 3 3 3 2 c f 3 3 3 3 c 
+        . c 3 3 9 3 3 c f c 2 3 3 2 c c 
+        c 1 1 1 1 3 2 f c c 2 2 2 c . . 
+        f 1 1 1 1 1 2 2 c 2 2 2 2 f . . 
+        f 2 1 1 1 1 1 2 2 2 2 2 c f . . 
+        . f 2 1 1 1 1 1 1 2 2 2 f . . . 
+        . . c c c c c c c c c f . . . . 
+        `],
+    300,
+    true
+    )
 }
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     music.bigCrash.play()
     game.over(true, effects.confetti)
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.bystander, function (sprite, otherSprite) {
+    redsnake.sayText(">:{")
+    greensnake.sayText(">:{")
+})
+let redsnake: Sprite = null
+let greensnake: Sprite = null
 let bad_guy: Sprite = null
+let obstacle: Sprite = null
 let myDart: Dart = null
+let DART_Y_VALUE = 0
+let DART_X_VALUE = 0
 tiles.setTilemap(tilemap`level2`)
 scene.setBackgroundImage(img`
     ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
@@ -164,5 +402,10 @@ scene.setBackgroundImage(img`
     aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
     aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
     `)
+DART_X_VALUE = 10
+DART_Y_VALUE = 60
 createDuck()
 createBadguy()
+createAsteroid()
+createGreensnake()
+createRedsnake()
